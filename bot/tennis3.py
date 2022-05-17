@@ -30,6 +30,3 @@ def lineup():
                 mensmatch = r["title"]
                 all = all + mensmatch + "\n"
     return all
-
-
-print(lineup())
