@@ -1,4 +1,3 @@
-from tkinter import N
 import requests
 from datetime import date
 import os

@@ -1,5 +1,4 @@
 def JJBot():
-    from itertools import filterfalse
     import requests
     from datetime import date
 
