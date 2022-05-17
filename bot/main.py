@@ -2,7 +2,7 @@
 import os
 import random
 import asyncio
-from discord import commands
+from discord.ext import commands
 from dotenv import load_dotenv
 from JJWolf_done import JJBot
 from tennis3 import lineup
