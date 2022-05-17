@@ -1,0 +1,43 @@
+def JJBot():
+    from itertools import filterfalse
+    import requests
+    from datetime import date
+
+    headers = {
+        "X-RapidAPI-Host": "tennis-live-data.p.rapidapi.com",
+        "X-RapidAPI-Key": "b33f88a085mshab3e13bc3fe0d76p18a6e8jsn08b260ff2707",
+    }
+    urlbase = "https://tennis-live-data.p.rapidapi.com/matches-by-date/"
+    # userdate = input("YYYY-MM-DD")
+    today = str(date.today())
+    url = urlbase + today
+    response = requests.request("GET", url, headers=headers)
+    json = response.json()
+    matchdone = False
+    winner = False
+    willplay = False
+    all = json["results"]
+    for empty in all:
+        yes = "JJ is playing today!"
+        no = "JJ does not play today :("
+        done = "JJ already played, "
+        win = "he won!"
+        lose = "mulletboy lost"
+        matches = empty["matches"]
+        for allmatch in matches:
+            result = allmatch["result"]
+            if allmatch["home_id"] == 1262886 or allmatch["away_id"] == 1262886:
+                if allmatch["status"] == "finished":
+                    matchdone = True
+                    if result["winner_id"] == 1262886:
+                        winner = True
+                else:
+                    willplay = True
+    if willplay:
+        return yes
+    elif matchdone and winner:
+        return done + win
+    elif matchdone and not winner:
+        return done + lose
+    else:
+        return no
