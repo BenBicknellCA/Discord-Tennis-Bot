@@ -1,10 +1,11 @@
 def JJBot():
     import requests
+    from dotenv import load_dotenv
     from datetime import date
 
     headers = {
         "X-RapidAPI-Host": "tennis-live-data.p.rapidapi.com",
-        "X-RapidAPI-Key": APIKey,
+        "X-RapidAPI-Key": "API_KEY",
     }
     urlbase = "https://tennis-live-data.p.rapidapi.com/matches-by-date/"
     # userdate = input("YYYY-MM-DD")
@@ -15,6 +16,7 @@ def JJBot():
     matchdone = False
     winner = False
     willplay = False
+    no = "JJ does not play today :("
     all = json["results"]
     for empty in all:
         yes = "JJ is playing today!"

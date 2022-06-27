@@ -1,4 +1,5 @@
 import requests
+from dotenv import load_dotenv
 from datetime import date
 import os
 import json
@@ -15,7 +16,7 @@ def lineup():
     #     url = urlbase + today
     headers = {
         "X-RapidAPI-Host": "tennis-live-data.p.rapidapi.com",
-        "X-RapidAPI-Key": APIKey,
+        "X-RapidAPI-Key": "API_KEY",
     }
 
     response = requests.request("GET", url, headers=headers)
