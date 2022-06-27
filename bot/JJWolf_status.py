@@ -4,7 +4,7 @@ def JJBot():
 
     headers = {
         "X-RapidAPI-Host": "tennis-live-data.p.rapidapi.com",
-        "X-RapidAPI-Key": "Secret-X-RapidAPI-Key",
+        "X-RapidAPI-Key": APIKey,
     }
     urlbase = "https://tennis-live-data.p.rapidapi.com/matches-by-date/"
     # userdate = input("YYYY-MM-DD")
