@@ -1,11 +1,18 @@
+import os
+from datetime import date
+
+import requests
+from dotenv import load_dotenv
+
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
+
+
 def JJBot():
-    import requests
-    from dotenv import load_dotenv
-    from datetime import date
 
     headers = {
         "X-RapidAPI-Host": "tennis-live-data.p.rapidapi.com",
-        "X-RapidAPI-Key": "API_KEY",
+        "X-RapidAPI-Key": API_KEY,
     }
     urlbase = "https://tennis-live-data.p.rapidapi.com/matches-by-date/"
     # userdate = input("YYYY-MM-DD")

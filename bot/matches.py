@@ -1,8 +1,12 @@
+import json
+import os
+from datetime import date
+
 import requests
 from dotenv import load_dotenv
-from datetime import date
-import os
-import json
+
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
 
 
 def lineup():
@@ -10,17 +14,15 @@ def lineup():
     today = str(date.today())
     urlbase = "https://tennis-live-data.p.rapidapi.com/matches-by-date/"
     url = urlbase + today
-    # if Date == True:
-    #     url = urlbase + Date
-    # else:
-    #     url = urlbase + today
+
     headers = {
+        "X-RapidAPI-Key": API_KEY,
         "X-RapidAPI-Host": "tennis-live-data.p.rapidapi.com",
-        "X-RapidAPI-Key": "API_KEY",
     }
 
     response = requests.request("GET", url, headers=headers)
     json = response.json()
+    print(json)
     results = json["results"]
 
     for matches in results:

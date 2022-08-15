@@ -1,12 +1,10 @@
 # bot.py
 import os
-import random
-import asyncio
+
 from discord.ext import commands
 from dotenv import load_dotenv
 from JJWolf_status import JJBot
 from matches import lineup
-
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
