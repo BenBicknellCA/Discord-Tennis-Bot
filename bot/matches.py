@@ -22,7 +22,6 @@ def lineup():
 
     response = requests.request("GET", url, headers=headers)
     json = response.json()
-    print(json)
     results = json["results"]
 
     for matches in results:
