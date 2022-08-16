@@ -25,7 +25,8 @@ async def JJWolf(ctx):
 async def Today(ctx):
     sched_response = sched()
     live_response = live()
-    await ctx.send(sched_response, live_response)
+    await ctx.send(sched_response)
+    await ctx.send(live_response)
 
 
 # @bot.command(
