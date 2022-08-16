@@ -40,6 +40,6 @@ def sched():
                 awayteam = events["awayTeam"]
                 homeplayer = hometeam["name"]
                 awayplayer = awayteam["name"]
-                match = str(homeplayer + " - " + awayplayer)
+                match = str(homeplayer + "  -  " + awayplayer)
                 allmatches = allmatches + match + "\n"
     return allmatches
