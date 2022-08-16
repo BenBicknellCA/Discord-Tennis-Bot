@@ -53,6 +53,12 @@ def sched():
     return allmatches
 
 
+def get_liveline():
+    star = "*" * 15
+    liveline = star + "LIVE" + star
+    return liveline
+
+
 def live():
     allmatches = ""
     live_response = requests.request("GET", live_url, data=payload, headers=headers)
@@ -63,8 +69,7 @@ def live():
     except urllib.error.HTTPerror:
         return
     finally:
-        star = "*" * 15
-        print(star + "LIVE" + star)
+        get_liveline()
         for events in results:
             tournament = events["tournament"]
             category = tournament["category"]
