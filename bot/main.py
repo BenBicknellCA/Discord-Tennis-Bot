@@ -4,6 +4,7 @@ import os
 from discord.ext import commands
 from dotenv import load_dotenv
 from JJWolf_status import JJBot
+from live import live
 from matches import sched
 
 load_dotenv()
@@ -24,6 +25,15 @@ async def JJWolf(ctx):
 )
 async def Today(ctx):
     response = sched()
+    await ctx.send(response)
+
+
+@bot.command(
+    name="Live",
+    help="Responds with all of the mens matches happening right now",
+)
+async def Live(ctx):
+    response = live()
     await ctx.send(response)
 
 
