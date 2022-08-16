@@ -12,10 +12,10 @@ API_KEY = os.getenv("API_KEY")
 
 now = datetime.now()
 today = now.strftime("%d/%m/%Y")
+
 urlbase = "https://tennisapi1.p.rapidapi.com/api/tennis/events/"
 url = urlbase + today
 
-live_url = "https://tennisapi1.p.rapidapi.com/api/tennis/events/live"
 
 payload = ""
 headers = {
@@ -29,7 +29,7 @@ def sched():
     response = requests.request("GET", url, data=payload, headers=headers)
     json = response.json()
     results = json["events"]
-    for count, events in enumerate(results):
+    for events in results:
         tournament = events["tournament"]
         category = tournament["category"]
         league = category["name"]
@@ -42,21 +42,11 @@ def sched():
                 homeplayer = hometeam["name"]
                 awayplayer = awayteam["name"]
                 match = str(homeplayer + "  -  " + awayplayer)
-                count = 1
-                count = count + 1
-                results_count = len(hometeam)
-
-                if results_count > count:
-                    allmatches = allmatches + match + "\n"
-                else:
-                    allmatches = allmatches + match
+                allmatches = allmatches + match + "\n"
     return allmatches
 
 
-def get_liveline():
-    star = "*" * 15
-    liveline = star + "LIVE" + star
-    return
+live_url = "https://tennisapi1.p.rapidapi.com/api/tennis/events/live"
 
 
 def live():
@@ -66,10 +56,9 @@ def live():
     results = ""
     try:
         results = live_json["events"]
-    except urllib.error.HTTPerror:
+    except KeyError:
         return
     finally:
-        get_liveline()
         for events in results:
             tournament = events["tournament"]
             category = tournament["category"]
@@ -82,6 +71,3 @@ def live():
                 match = str(homeplayer + " - " + awayplayer)
                 allmatches = allmatches + match + "\n"
         return allmatches
-
-
-sched()

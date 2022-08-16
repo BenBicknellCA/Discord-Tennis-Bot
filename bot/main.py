@@ -1,12 +1,11 @@
 # bot.py
 import os
 
-from call_all import call_all
 from discord.ext import commands
 from dotenv import load_dotenv
 from JJWolf_status import JJBot
-
-# from matches import get_liveline, live, sched
+from live import live
+from matches import sched
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -22,20 +21,20 @@ async def JJWolf(ctx):
 
 @bot.command(
     name="Today",
-    help="Responds with all live and scheduled matches for the day",
+    help="Responds with all of the mens matches happening today",
 )
 async def Today(ctx):
-    response = call_all()
+    response = sched()
     await ctx.send(response)
 
 
-# @bot.command(
-#     name="Live",
-#     help="Responds with all of the mens matches happening right now",
-# )
-# async def Live(ctx):
-#     response = live()
-#     await ctx.send(response)
+@bot.command(
+    name="Live",
+    help="Responds with all of the mens matches happening right now",
+)
+async def Live(ctx):
+    response = live()
+    await ctx.send(response)
 
 
 bot.run(TOKEN)
