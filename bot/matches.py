@@ -56,7 +56,7 @@ def sched():
 def get_liveline():
     star = "*" * 15
     liveline = star + "LIVE" + star
-    return liveline
+    return
 
 
 def live():

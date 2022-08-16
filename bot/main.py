@@ -4,8 +4,7 @@ import os
 from discord.ext import commands
 from dotenv import load_dotenv
 from JJWolf_status import JJBot
-from live import live
-from matches import sched
+from matches import get_liveline, live, sched
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -26,8 +25,7 @@ async def JJWolf(ctx):
 async def Today(ctx):
     sched_response = sched()
     live_response = live()
-    await ctx.send(sched_response)
-    await ctx.send(live_response)
+    await ctx.send(sched_response, live_response)
 
 
 # @bot.command(
