@@ -4,7 +4,7 @@ import os
 from discord.ext import commands
 from dotenv import load_dotenv
 from JJWolf_status import JJBot
-from matches import lineup
+from matches import sched
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -23,7 +23,7 @@ async def JJWolf(ctx):
     help="Responds with all of the mens matches happening today",
 )
 async def Today(ctx):
-    response = lineup()
+    response = sched()
     await ctx.send(response)
 
 

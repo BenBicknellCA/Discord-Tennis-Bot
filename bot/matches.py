@@ -41,6 +41,3 @@ def sched():
                 awayplayer = awayteam["name"]
                 match = str(homeplayer + " - " + awayplayer)
                 print(match)
-
-
-sched()
