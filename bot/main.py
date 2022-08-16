@@ -1,6 +1,7 @@
 # bot.py
 import os
 
+from call_all import call_all
 from discord.ext import commands
 from dotenv import load_dotenv
 from JJWolf_status import JJBot
@@ -23,10 +24,8 @@ async def JJWolf(ctx):
     help="Responds with all live and scheduled matches for the day",
 )
 async def Today(ctx):
-    sched_response = sched()
-    live_response = live()
-    await ctx.send(sched_response)
-    await ctx.send(live_response)
+    response = call_all()
+    await ctx.send(response)
 
 
 # @bot.command(
