@@ -9,7 +9,7 @@ from matches import sched
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-bot = commands.Bot(command_prefix="!")
+bot = commands.Bot(command_prefix="!", case_insensitive=True)
 
 
 @bot.command(name="JJ", help="Responds with JJ wolf match status")
