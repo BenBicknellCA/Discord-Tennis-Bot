@@ -6,6 +6,8 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from JJWolf_status import JJBot
 
+# from matches import get_liveline, live, sched
+
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
