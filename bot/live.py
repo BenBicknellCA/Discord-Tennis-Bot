@@ -39,6 +39,6 @@ def live():
                 match = str(homeplayer + " - " + awayplayer)
                 allmatches = allmatches + match + "\n"
     if allmatches == "":
-        print("There are no live ATP matches")
+        return str("There are no live ATP matches")
     else:
         return allmatches
