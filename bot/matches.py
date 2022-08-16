@@ -24,6 +24,7 @@ headers = {
 
 
 def sched():
+    allmatches = ""
     response = requests.request("GET", url, data=payload, headers=headers)
     json = response.json()
     results = json["events"]
@@ -40,4 +41,5 @@ def sched():
                 homeplayer = hometeam["name"]
                 awayplayer = awayteam["name"]
                 match = str(homeplayer + " - " + awayplayer)
-                return match
+                allmatches = allmatches + match + "\n"
+    return allmatches
