@@ -21,20 +21,22 @@ async def JJWolf(ctx):
 
 @bot.command(
     name="Today",
-    help="Responds with all of the mens matches happening today",
+    help="Responds with all live and scheduled matches for the day",
 )
 async def Today(ctx):
-    response = sched()
-    await ctx.send(response)
+    sched_response = sched()
+    live_response = live()
+    await ctx.send(sched_response)
+    await ctx.send(live_response)
 
 
-@bot.command(
-    name="Live",
-    help="Responds with all of the mens matches happening right now",
-)
-async def Live(ctx):
-    response = live()
-    await ctx.send(response)
+# @bot.command(
+#     name="Live",
+#     help="Responds with all of the mens matches happening right now",
+# )
+# async def Live(ctx):
+#     response = live()
+#     await ctx.send(response)
 
 
 bot.run(TOKEN)
