@@ -49,3 +49,6 @@ def JJBot():
         return done + lose
     else:
         return no
+
+
+# NEW JJ ID - 210479

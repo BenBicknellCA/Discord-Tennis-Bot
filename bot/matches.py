@@ -1,6 +1,6 @@
 import json
 import os
-from datetime import date
+from datetime import datetime
 
 import requests
 from dotenv import load_dotenv
@@ -9,26 +9,38 @@ load_dotenv()
 API_KEY = os.getenv("API_KEY")
 
 
-def lineup():
-    all = ""
-    today = str(date.today())
-    urlbase = "https://tennis-live-data.p.rapidapi.com/matches-by-date/"
-    url = urlbase + today
+now = datetime.now()
+today = now.strftime("%d/%m/%Y")
 
-    headers = {
-        "X-RapidAPI-Key": API_KEY,
-        "X-RapidAPI-Host": "tennis-live-data.p.rapidapi.com",
-    }
+urlbase = "https://tennisapi1.p.rapidapi.com/api/tennis/events/"
+url = urlbase + today
 
-    response = requests.request("GET", url, headers=headers)
+
+payload = ""
+headers = {
+    "X-RapidAPI-Key": API_KEY,
+    "X-RapidAPI-Host": "tennisapi1.p.rapidapi.com",
+}
+
+
+def sched():
+    response = requests.request("GET", url, data=payload, headers=headers)
     json = response.json()
-    results = json["results"]
+    results = json["events"]
+    for events in results:
+        tournament = events["tournament"]
+        category = tournament["category"]
+        league = category["name"]
+        if league == "ATP":
+            status = events["status"]
+            is_started = status["type"]
+            if is_started == "notstarted":
+                hometeam = events["homeTeam"]
+                awayteam = events["awayTeam"]
+                homeplayer = hometeam["name"]
+                awayplayer = awayteam["name"]
+                match = str(homeplayer + " - " + awayplayer)
+                print(match)
 
-    for matches in results:
-        y = matches["tournament"]
-        x = matches["matches"]
-        for r in x:
-            if y["code"] == "ATP":
-                mensmatch = r["title"]
-                all = all + mensmatch + "\n"
-    return all
+
+sched()
