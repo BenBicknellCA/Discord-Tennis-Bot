@@ -29,15 +29,12 @@ def live():
         category = tournament["category"]
         league = category["name"]
         if league == "ATP":
-            status = events["status"]
-            is_started = status["type"]
-            if is_started == "notstarted":
-                hometeam = events["homeTeam"]
-                awayteam = events["awayTeam"]
-                homeplayer = hometeam["name"]
-                awayplayer = awayteam["name"]
-                match = str(homeplayer + " - " + awayplayer)
-                allmatches = allmatches + match + "\n"
+            hometeam = events["homeTeam"]
+            awayteam = events["awayTeam"]
+            homeplayer = hometeam["name"]
+            awayplayer = awayteam["name"]
+            match = str(homeplayer + " - " + awayplayer)
+            allmatches = allmatches + match + "\n"
     if allmatches == "":
         return str("There are no live ATP matches")
     else:
