@@ -51,28 +51,26 @@ def sched():
                     allmatches = allmatches + match + "\n"
                 else:
                     allmatches = allmatches + match
-    return allmatches
+        return allmatches
 
 
 def live():
     allmatches = ""
-    live_response = requests.request("GET", live_url, data=payload, headers=headers)
-    live_json = live_response.json()
-    results = ""
-    try:
-        results = live_json["events"]
-    except KeyError:
-        return
-    finally:
-        for events in results:
-            tournament = events["tournament"]
-            category = tournament["category"]
-            league = category["name"]
-            if league == "ATP":
-                hometeam = events["homeTeam"]
-                awayteam = events["awayTeam"]
-                homeplayer = hometeam["name"]
-                awayplayer = awayteam["name"]
-                match = str(homeplayer + " - " + awayplayer)
-                allmatches = allmatches + match + "\n"
+    response = requests.request("GET", live_url, data=payload, headers=headers)
+    json = response.json()
+    results = json["events"]
+    for events in results:
+        tournament = events["tournament"]
+        category = tournament["category"]
+        league = category["name"]
+        if league == "ATP":
+            hometeam = events["homeTeam"]
+            awayteam = events["awayTeam"]
+            homeplayer = hometeam["name"]
+            awayplayer = awayteam["name"]
+            match = str(homeplayer + " - " + awayplayer)
+            allmatches = allmatches + match + "\n"
+    if allmatches == "":
+        return str("There are no live ATP matches")
+    else:
         return allmatches
