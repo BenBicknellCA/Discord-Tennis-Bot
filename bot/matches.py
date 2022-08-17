@@ -27,6 +27,7 @@ headers = {
 
 def sched():
     allmatches = ""
+    results_count = 1
     response = requests.request("GET", url, data=payload, headers=headers)
     json = response.json()
     results = json["events"]
@@ -51,7 +52,7 @@ def sched():
                     allmatches = allmatches + match + "\n"
                 else:
                     allmatches = allmatches + match
-        return allmatches
+    return allmatches
 
 
 def live():
