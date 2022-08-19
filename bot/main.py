@@ -3,6 +3,7 @@ import os
 
 from discord.ext import commands
 from dotenv import load_dotenv
+from Emma_status import emma
 from JJWolf_status import JJBot
 from live import live
 from matches import sched
@@ -34,6 +35,15 @@ async def Today(ctx):
 )
 async def Live(ctx):
     response = live()
+    await ctx.send(response)
+
+
+@bot.command(
+    name="Emma",
+    help="Responds with Emma match status",
+)
+async def Emma(ctx):
+    response = emma()
     await ctx.send(response)
 
 
