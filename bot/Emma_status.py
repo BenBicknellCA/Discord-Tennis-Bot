@@ -1,7 +1,6 @@
 import datetime
 import os
 
-import pytz
 import requests
 from datetimerange import DateTimeRange
 from dotenv import load_dotenv
@@ -38,7 +37,8 @@ def emma():
     )
     json = response.json()
     tomorrow_json = tomorrow_response.json()
-    results = json["events"] + tomorrow_json["events"]
+    all_json = merge(json, tomorrow_json)
+    results = all_json["events"]
     not_start = "Emma is playing later today!"
     is_start = "Emma is playing right now!"
     finish_start = "Emma already played today"
@@ -59,8 +59,6 @@ def emma():
             time_unix, datetime.timezone(datetime.timedelta(hours=5))
         )
         time_start = time_match.strftime("%d/%m/%Y")
-        print(time_start)
-        print(events)
         time_range = DateTimeRange(today, today)
         if time_start in time_range:
             if league == "WTA":
@@ -82,7 +80,5 @@ def emma():
         else:
             return not_play
 
-
-print(emma())
 
 # EMMA ID - 258756
