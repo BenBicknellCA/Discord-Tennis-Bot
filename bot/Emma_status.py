@@ -60,5 +60,4 @@ def emma():
         return not_play
 
 
-print(emma())
 # EMMA ID - 258756
