@@ -52,14 +52,16 @@ def emma():
         time_category = events["time"]
         time_unix = time_category["currentPeriodStartTimestamp"]
         scheduled_unix = events["startTimestamp"]
-        scheduled_datetime = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
-            pytz.timezone("US/Eastern")
-        )
-        time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
-            pytz.timezone("US/Eastern")
-        )
-        if time_match == None:
-            time_match = scheduled_datetime
+
+        try:
+            time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
+                pytz.timezone("US/Eastern")
+            )
+        except TypeError:
+            time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
+                pytz.timezone("US/Eastern")
+            )
+
         time_range = DateTimeRange(today, today)
         if league == "WTA":
             if time_match in time_range:
@@ -72,14 +74,14 @@ def emma():
                             emma_playing = True
                             if is_started == "notstarted":
                                 emma_willplay = True
-    if emma_willplay:
-        return not_start
-    elif emma_played:
-        return finish_start
-    elif emma_playing:
-        return is_start
-    else:
-        return not_play
+        if emma_willplay:
+            return not_start
+        elif emma_played:
+            return finish_start
+        elif emma_playing:
+            return is_start
+        else:
+            return not_play
 
 
 # EMMA ID - 258756
