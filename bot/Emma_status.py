@@ -1,6 +1,7 @@
 import datetime
 import os
 
+import pytz
 import requests
 from datetimerange import DateTimeRange
 from dotenv import load_dotenv
@@ -8,11 +9,6 @@ from jsonmerge import merge
 
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
-
-# range_start = datetime.datetime.today(pytz.timezone("US/Eastern"))
-# range_end = datetime.datetime.now(pytz.timezone("US/Eastern")) + datetime.timedelta(
-#     hours=4
-# )
 
 right_now = datetime.datetime.today()
 today = right_now.strftime("%d/%m/%Y")
@@ -55,13 +51,18 @@ def emma():
         emma_away = events["awayTeam"]
         time_category = events["time"]
         time_unix = time_category["currentPeriodStartTimestamp"]
-        time_match = datetime.datetime.fromtimestamp(
-            time_unix, datetime.timezone(datetime.timedelta(hours=5))
+        scheduled_unix = events["startTimestamp"]
+        scheduled_datetime = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
+            pytz.timezone("US/Eastern")
         )
-        time_start = time_match.strftime("%d/%m/%Y")
+        time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
+            pytz.timezone("US/Eastern")
+        )
+        if time_match == None:
+            time_match = scheduled_datetime
         time_range = DateTimeRange(today, today)
-        if time_start in time_range:
-            if league == "WTA":
+        if league == "WTA":
+            if time_match in time_range:
                 if emma_home["id"] == 258756 or emma_away["id"] == 258756:
                     status = events["status"]
                     is_started = status["type"]
@@ -81,4 +82,5 @@ def emma():
             return not_play
 
 
+print(emma())
 # EMMA ID - 258756
