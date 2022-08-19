@@ -72,14 +72,14 @@ def emma():
                             emma_playing = True
                             if is_started == "notstarted":
                                 emma_willplay = True
-        if emma_willplay:
-            return not_start
-        elif emma_played:
-            return finish_start
-        elif emma_playing:
-            return is_start
-        else:
-            return not_play
+    if emma_willplay:
+        return not_start
+    elif emma_played:
+        return finish_start
+    elif emma_playing:
+        return is_start
+    else:
+        return not_play
 
 
 # EMMA ID - 258756
