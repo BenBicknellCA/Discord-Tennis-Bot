@@ -3,7 +3,6 @@ import os
 
 import pytz
 import requests
-from datetimerange import DateTimeRange
 from dotenv import load_dotenv
 from jsonmerge import merge
 
@@ -35,7 +34,7 @@ def JJBot():
     tomorrow_json = tomorrow_response.json()
     all_json = merge(json, tomorrow_json)
     results = all_json["events"]
-    not_start = "JJ is playing today!"
+    not_start = "JJ plays today at "
     is_start = "JJ is playing right now!"
     finish_start = "JJ already played today"
     not_play = "JJ does not play today"
@@ -58,6 +57,7 @@ def JJBot():
             time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
                 pytz.timezone("US/Eastern")
             )
+        time = time_match.strftime("%I:%M %p")
         time_match = time_match.strftime("%d/%m/%Y")
         if league == "ATP":
             if time_match == today:
@@ -69,7 +69,7 @@ def JJBot():
                     elif is_started == "inprogress":
                         return is_start
                     elif is_started == "notstarted":
-                        return not_start
+                        return not_start + time
             else:
                 return not_play
 

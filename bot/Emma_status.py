@@ -34,7 +34,7 @@ def EmmaBot():
     tomorrow_json = tomorrow_response.json()
     all_json = merge(json, tomorrow_json)
     results = all_json["events"]
-    not_start = "Emma is playing today!"
+    not_start = "Emma plays today at "
     is_start = "Emma is playing right now!"
     finish_start = "Emma already played today"
     not_play = "Emma does not play today"
@@ -57,6 +57,7 @@ def EmmaBot():
             time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
                 pytz.timezone("US/Eastern")
             )
+        time = time_match.strftime("%I:%M %p")
         time_match = time_match.strftime("%d/%m/%Y")
         if league == "WTA":
             if time_match == today:
@@ -68,7 +69,7 @@ def EmmaBot():
                     elif is_started == "inprogress":
                         return is_start
                     elif is_started == "notstarted":
-                        return not_start
+                        return not_start + time
             else:
                 return not_play
 
