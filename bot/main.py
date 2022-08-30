@@ -49,17 +49,8 @@ async def Live(ctx):
 async def Link(ctx):
     embed = discord.Embed(
         title="freestreams-live1.com/tennis-live-stream/",
-        value="[freestreams-live1.com/tennis-live-stream/]"(
-            "freestreams-live1.com/tennis-live-stream/"
-        ),
+        url="freestreams-live1.com/tennis-live-stream/",
     )
-    embed.add_field(
-        name="freestreams-live1.com/tennis-live-stream/",
-        value="[freestreams-live1.com/tennis-live-stream/]"(
-            "freestreams-live1.com/tennis-live-stream/"
-        ),
-    )
-
     await ctx.send(embed=embed)
 
 
