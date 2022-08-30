@@ -74,5 +74,4 @@ def EmmaBot():
                 return not_play
 
 
-print(EmmaBot())
 # EMMA ID - 258756
