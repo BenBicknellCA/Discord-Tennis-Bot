@@ -34,7 +34,8 @@ def JJBot():
     tomorrow_json = tomorrow_response.json()
     all_json = merge(json, tomorrow_json)
     results = all_json["events"]
-    not_start = "JJ plays today at "
+    opponent = " "
+    not_start = "JJ plays" + opponent + "today at "
     is_start = "JJ is playing right now!"
     finish_start = "JJ already played today"
     not_play = "JJ does not play today"
@@ -62,6 +63,10 @@ def JJBot():
         if league == "ATP":
             if time_match == today:
                 if JJ_home["id"] == 210479 or JJ_away["id"] == 210479:
+                    if not JJ_home["id"] == 210479:
+                        opponent = JJ_home["name"]
+                    else:
+                        opponent = JJ_away["name"]
                     status = events["status"]
                     is_started = status["type"]
                     if is_started == "finished":
@@ -69,7 +74,7 @@ def JJBot():
                     elif is_started == "inprogress":
                         return is_start
                     elif is_started == "notstarted":
-                        return not_start + time + " EST"
+                        return not_start + opponent + " today at " + time + " EST"
             else:
                 return not_play
 

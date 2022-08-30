@@ -33,8 +33,9 @@ def EmmaBot():
     json = response.json()
     tomorrow_json = tomorrow_response.json()
     all_json = merge(json, tomorrow_json)
+    opponent = " "
     results = all_json["events"]
-    not_start = "Emma plays today at "
+    not_start = "Emma plays "
     is_start = "Emma is playing right now!"
     finish_start = "Emma already played today"
     not_play = "Emma does not play today"
@@ -62,6 +63,10 @@ def EmmaBot():
         if league == "WTA":
             if time_match == today:
                 if Emma_home["id"] == 258756 or Emma_away["id"] == 258756:
+                    if not Emma_home["id"] == 258756:
+                        opponent = Emma_home["name"]
+                    else:
+                        opponent = Emma_away["name"]
                     status = events["status"]
                     is_started = status["type"]
                     if is_started == "finished":
@@ -69,7 +74,7 @@ def EmmaBot():
                     elif is_started == "inprogress":
                         return is_start
                     elif is_started == "notstarted":
-                        return not_start + time + " EST"
+                        return not_start + opponent + " today at " + time + " EST"
             else:
                 return not_play
 
