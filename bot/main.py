@@ -1,6 +1,7 @@
 # bot.py
 import os
 
+import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 from Emma_status import EmmaBot
@@ -43,8 +44,14 @@ async def Live(ctx):
     help=":)",
 )
 async def Link(ctx):
-    response = "freestreams-live1.com/tennis-live-stream/"
-    await ctx.send(response)
+    embed = discord.Embed(
+        title="freestreams-live1.com/tennis-live-stream/", description=":)"
+    )
+    embed.add_field(
+        name="freestreams-live1.com/tennis-live-stream/",
+        value="freestreams-live1.com/tennis-live-stream/",
+    )
+    await ctx.send(embed=embed)
 
 
 @bot.command(
@@ -57,4 +64,3 @@ async def Emma(ctx):
 
 
 bot.run(TOKEN)
-print(Link())
