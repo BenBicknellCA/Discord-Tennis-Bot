@@ -14,7 +14,7 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 
-bot = commands.Bot(command_prefix="!", case_insensitive=True)
+bot = commands.Bot(command_prefix="!", case_insensitive=True, intents=intents)
 
 
 @bot.command(name="JJ", help="Responds with JJ wolf match status")
