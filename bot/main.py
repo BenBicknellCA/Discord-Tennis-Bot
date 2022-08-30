@@ -39,6 +39,15 @@ async def Live(ctx):
 
 
 @bot.command(
+    name="Link",
+    help=":)",
+)
+async def Link(ctx):
+    response = "freestreams-live1.com/tennis-live-stream/"
+    await ctx.send(response)
+
+
+@bot.command(
     name="Emma",
     help="Responds with Emma match status",
 )
@@ -48,3 +57,4 @@ async def Emma(ctx):
 
 
 bot.run(TOKEN)
+print(Link())
