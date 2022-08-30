@@ -13,6 +13,7 @@ load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 intents = discord.Intents.all()
 client = discord.Client(intents=intents)
+intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", case_insensitive=True, intents=intents)
 
@@ -47,12 +48,11 @@ async def Live(ctx):
 )
 async def Link(ctx):
     embed = discord.Embed(
-        title="freestreams-live1.com/tennis-live-stream/", description=":)"
+        value="[freestreams-live1.com/tennis-live-stream/]"(
+            "freestreams-live1.com/tennis-live-stream/"
+        )
     )
-    embed.add_field(
-        name="freestreams-live1.com/tennis-live-stream/",
-        value="freestreams-live1.com/tennis-live-stream/",
-    )
+
     await ctx.send(embed=embed)
 
 
