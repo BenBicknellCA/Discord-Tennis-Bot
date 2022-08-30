@@ -74,7 +74,9 @@ def JJBot():
                     elif is_started == "inprogress":
                         return is_start
                     elif is_started == "notstarted":
-                        return not_start + opponent + " today at " + time + " EST"
+                        return (
+                            not_start + opponent + " no earlier than " + time + " EST"
+                        )
             else:
                 return not_play
 
