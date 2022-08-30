@@ -11,6 +11,8 @@ from matches import sched
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
+intents = discord.Intents.default()
+client = discord.Client(intents=intents)
 
 bot = commands.Bot(command_prefix="!", case_insensitive=True)
 
