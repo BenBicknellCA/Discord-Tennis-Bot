@@ -75,7 +75,11 @@ def JJBot():
                         return is_start
                     elif is_started == "notstarted":
                         return (
-                            not_start + opponent + " no earlier than " + time + " EST"
+                            not_start
+                            + opponent
+                            + " today no earlier than "
+                            + time
+                            + " EST"
                         )
             else:
                 return not_play
