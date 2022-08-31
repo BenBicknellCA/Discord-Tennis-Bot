@@ -35,7 +35,7 @@ def JJBot():
     all_json = merge(json, tomorrow_json)
     results = all_json["events"]
     opponent = " "
-    not_start = "JJ plays" + opponent + "today at "
+    not_start = "JJ plays "
     is_start = "JJ is playing right now!"
     finish_start = "JJ already played today"
     not_play = "JJ does not play today"
