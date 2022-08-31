@@ -61,28 +61,24 @@ def JJBot():
         time = time_match.strftime("%-I:%M %p")
         time_match = time_match.strftime("%d/%m/%Y")
         if league == "ATP":
-            if time_match == today:
-                if JJ_home["id"] == 210479 or JJ_away["id"] == 210479:
-                    if not JJ_home["id"] == 210479:
-                        opponent = JJ_home["name"]
-                    else:
-                        opponent = JJ_away["name"]
-                    status = events["status"]
-                    is_started = status["type"]
-                    if is_started == "finished":
-                        return finish_start
-                    elif is_started == "inprogress":
-                        return is_start
-                    elif is_started == "notstarted":
-                        return (
-                            not_start
-                            + opponent
-                            + " today no earlier than "
-                            + time
-                            + " EST"
-                        )
-            else:
-                return not_play
+            # if time_match == today:
+            if JJ_home["id"] == 210479 or JJ_away["id"] == 210479:
+                if not JJ_home["id"] == 210479:
+                    opponent = JJ_home["name"]
+                else:
+                    opponent = JJ_away["name"]
+                status = events["status"]
+                is_started = status["type"]
+                if is_started == "finished":
+                    return finish_start
+                elif is_started == "inprogress":
+                    return is_start
+                elif is_started == "notstarted":
+                    return (
+                        not_start + opponent + " today no earlier than " + time + " EST"
+                    )
+        else:
+            return not_play
 
 
 # JJ ID -210479
