@@ -81,8 +81,8 @@ def JJBot():
                             + time
                             + " EST"
                         )
-            else:
-                return not_play
+        else:
+            return not_play
 
 
 # JJ ID -210479
