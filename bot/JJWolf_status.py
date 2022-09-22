@@ -1,6 +1,5 @@
 import datetime
 import os
-from curses.ascii import US
 
 import pytz
 import requests
