@@ -1,17 +1,21 @@
 # bot.py
 import os
 
+import discord
 from discord.ext import commands
 from dotenv import load_dotenv
-from Emma_status import emma
+from Emma_status import EmmaBot
 from JJWolf_status import JJBot
 from live import live
 from matches import sched
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
+intents = discord.Intents.all()
+client = discord.Client(intents=intents)
+intents.message_content = True
 
-bot = commands.Bot(command_prefix="!", case_insensitive=True)
+bot = commands.Bot(command_prefix="!", case_insensitive=True, intents=intents)
 
 
 @bot.command(name="JJ", help="Responds with JJ wolf match status")
@@ -39,11 +43,23 @@ async def Live(ctx):
 
 
 @bot.command(
+    name="Link",
+    help=":)",
+)
+async def Link(ctx):
+    embed = discord.Embed(
+        title="freestreams-live1.com/tennis-live-stream/",
+        url="http://freestreams-live1.com/tennis-live-stream/",
+    )
+    await ctx.send(embed=embed)
+
+
+@bot.command(
     name="Emma",
     help="Responds with Emma match status",
 )
 async def Emma(ctx):
-    response = emma()
+    response = EmmaBot()
     await ctx.send(response)
 
 

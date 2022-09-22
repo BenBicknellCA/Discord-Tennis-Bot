@@ -4,7 +4,6 @@ from curses.ascii import US
 
 import pytz
 import requests
-from datetimerange import DateTimeRange
 from dotenv import load_dotenv
 from jsonmerge import merge
 
@@ -36,13 +35,11 @@ def JJBot():
     tomorrow_json = tomorrow_response.json()
     all_json = merge(json, tomorrow_json)
     results = all_json["events"]
-    not_start = "JJ is playing later today!"
+    opponent = " "
+    not_start = "JJ plays "
     is_start = "JJ is playing right now!"
     finish_start = "JJ already played today"
     not_play = "JJ does not play today"
-    JJ_played = False
-    JJ_playing = False
-    JJ_willplay = False
 
     for events in results:
         tournament = events["tournament"]
@@ -58,7 +55,7 @@ def JJBot():
             time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
                 pytz.timezone("US/Eastern")
             )
-        except TypeError:
+        except:
             time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
                 pytz.timezone("US/Eastern")
             )
@@ -68,24 +65,31 @@ def JJBot():
         time_range = DateTimeRange(right_now, right_now)
         if league == "ATP":
             if time_match in time_range:
+        time = time_match.strftime("%-I:%M %p")
+        time_match = time_match.strftime("%d/%m/%Y")
+        if league == "ATP":
+            if time_match == today:
                 if JJ_home["id"] == 210479 or JJ_away["id"] == 210479:
+                    if not JJ_home["id"] == 210479:
+                        opponent = JJ_home["name"]
+                    else:
+                        opponent = JJ_away["name"]
                     status = events["status"]
                     is_started = status["type"]
                     if is_started == "finished":
-                        JJ_played = True
-                        if is_started == "inprogress":
-                            JJ_playing = True
-                            if is_started == "notstarted":
-                                JJ_willplay = True
-        if JJ_willplay:
-            return not_start
-        elif JJ_played:
-            return finish_start
-        elif JJ_playing:
-            return is_start
+                        return finish_start
+                    elif is_started == "inprogress":
+                        return is_start
+                    elif is_started == "notstarted":
+                        return (
+                            not_start
+                            + opponent
+                            + " today no earlier than "
+                            + time
+                            + " EST"
+                        )
         else:
             return not_play
 
 
-print(JJBot())
 # JJ ID -210479
