@@ -58,6 +58,12 @@ def JJBot():
             time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
                 pytz.timezone("US/Eastern")
             )
+        time_match = time_match.US.localize(time_match)
+        print(right_now)
+        print(time_match)
+        time_range = DateTimeRange(right_now, right_now)
+        if league == "ATP":
+            if time_match in time_range:
         time = time_match.strftime("%-I:%M %p")
         time_match = time_match.strftime("%d/%m/%Y")
         if league == "ATP":
