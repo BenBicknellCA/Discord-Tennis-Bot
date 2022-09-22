@@ -1,5 +1,6 @@
 import datetime
 import os
+from curses.ascii import US
 
 import pytz
 import requests
@@ -61,9 +62,11 @@ def JJBot():
             time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
                 pytz.timezone("US/Eastern")
             )
-
-        time_range = DateTimeRange(today, today)
-        if league == "WTA":
+        time_match = time_match.US.localize(time_match)
+        print(right_now)
+        print(time_match)
+        time_range = DateTimeRange(right_now, right_now)
+        if league == "ATP":
             if time_match in time_range:
                 if JJ_home["id"] == 210479 or JJ_away["id"] == 210479:
                     status = events["status"]
@@ -84,4 +87,5 @@ def JJBot():
             return not_play
 
 
+print(JJBot())
 # JJ ID -210479

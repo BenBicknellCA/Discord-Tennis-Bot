@@ -26,7 +26,7 @@ headers = {
 }
 
 
-def emma():
+def emmaBot():
     response = requests.request("GET", url, data=payload, headers=headers)
     tomorrow_response = requests.request(
         "GET", url_tomorrow, data=payload, headers=headers
@@ -35,10 +35,10 @@ def emma():
     tomorrow_json = tomorrow_response.json()
     all_json = merge(json, tomorrow_json)
     results = all_json["events"]
-    not_start = "Emma is playing later today!"
-    is_start = "Emma is playing right now!"
-    finish_start = "Emma already played today"
-    not_play = "Emma does not play today"
+    not_start = "emma is playing later today!"
+    is_start = "emma is playing right now!"
+    finish_start = "emma already played today"
+    not_play = "emma does not play today"
     emma_played = False
     emma_playing = False
     emma_willplay = False
@@ -61,8 +61,10 @@ def emma():
             time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
                 pytz.timezone("US/Eastern")
             )
-
-        time_range = DateTimeRange(today, today)
+        time_match = time_match.US.localize(time_match)
+        print(right_now)
+        print(time_match)
+        time_range = DateTimeRange(right_now, right_now)
         if league == "WTA":
             if time_match in time_range:
                 if emma_home["id"] == 258756 or emma_away["id"] == 258756:
