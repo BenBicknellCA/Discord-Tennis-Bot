@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from Emma_status import emma
+from Emma_status import EmmaBot
 from JJWolf_status import JJBot
 from live import live
 from matches import sched
@@ -60,7 +60,7 @@ async def Link(ctx):
     help="Responds with Emma match status",
 )
 async def Emma(ctx):
-    response = emma()
+    response = EmmaBot()
     await ctx.send(response)
 
 

@@ -49,30 +49,23 @@ def JJBot():
         time_category = events["time"]
         time_unix = time_category["currentPeriodStartTimestamp"]
         scheduled_unix = events["startTimestamp"]
-
-        try:
-            time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
-                pytz.timezone("US/Eastern")
-            )
-        except:
-            time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
-                pytz.timezone("US/Eastern")
-            )
-        time_match = time_match.US.localize(time_match)
-        print(right_now)
-        print(time_match)
-        time_range = DateTimeRange(right_now, right_now)
         if league == "ATP":
-            if time_match in time_range:
-        time = time_match.strftime("%-I:%M %p")
-        time_match = time_match.strftime("%d/%m/%Y")
-        if league == "ATP":
-            if time_match == today:
-                if JJ_home["id"] == 210479 or JJ_away["id"] == 210479:
-                    if not JJ_home["id"] == 210479:
-                        opponent = JJ_home["name"]
-                    else:
+            if JJ_home["id"] == 210479 or JJ_away["id"] == 210479:
+                try:
+                    time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
+                        pytz.timezone("US/Eastern")
+                    )
+                except:
+                    time_match = datetime.datetime.fromtimestamp(
+                        scheduled_unix
+                    ).astimezone(pytz.timezone("US/Eastern"))
+                time = time_match.strftime("%-I:%M %p")
+                time_match = time_match.strftime("%d/%m/%Y")
+                if time_match == today:
+                    if not JJ_home["id"] == 258756:
                         opponent = JJ_away["name"]
+                    else:
+                        opponent = JJ_home["name"]
                     status = events["status"]
                     is_started = status["type"]
                     if is_started == "finished":
@@ -87,8 +80,18 @@ def JJBot():
                             + time
                             + " EST"
                         )
+                elif time_match == tomorrow:
+                    return (
+                        not_start
+                        + opponent
+                        + "tomorrow no earlier than "
+                        + time
+                        + " EST"
+                    )
+
         else:
             return not_play
 
 
+print(JJBot())
 # JJ ID -210479

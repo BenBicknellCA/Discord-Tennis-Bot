@@ -25,7 +25,7 @@ headers = {
 }
 
 
-def emma():
+def EmmaBot():
     response = requests.request("GET", url, data=payload, headers=headers)
     tomorrow_response = requests.request(
         "GET", url_tomorrow, data=payload, headers=headers
@@ -33,67 +33,52 @@ def emma():
     json = response.json()
     tomorrow_json = tomorrow_response.json()
     all_json = merge(json, tomorrow_json)
-    opponent = " "
     results = all_json["events"]
-    not_start = "emma is playing later today!"
-    is_start = "emma is playing right now!"
-    finish_start = "emma already played today"
-    not_play = "emma does not play today"
-    emma_played = False
-    emma_playing = False
-    emma_willplay = False
+    opponent = " "
     not_start = "Emma plays "
     is_start = "Emma is playing right now!"
     finish_start = "Emma already played today"
     not_play = "Emma does not play today"
-
     for events in results:
-        tournament = events["tournament"]
-        category = tournament["category"]
-        league = category["name"]
         Emma_home = events["homeTeam"]
         Emma_away = events["awayTeam"]
         time_category = events["time"]
         time_unix = time_category["currentPeriodStartTimestamp"]
         scheduled_unix = events["startTimestamp"]
-
-        try:
-            time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
-                pytz.timezone("US/Eastern")
-            )
-        except TypeError:
-            time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
-                pytz.timezone("US/Eastern")
-            )
-        time_match = time_match.US.localize(time_match)
-        print(right_now)
-        print(time_match)
-        time_range = DateTimeRange(right_now, right_now)
-        time = time_match.strftime("%-I:%M %p")
-        time_match = time_match.strftime("%d/%m/%Y")
-        if league == "WTA":
+        if Emma_home["id"] == 258756 or Emma_away["id"] == 258756:
+            try:
+                time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
+                    pytz.timezone("US/Eastern")
+                )
+            except:
+                time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
+                    pytz.timezone("US/Eastern")
+                )
+            time = time_match.strftime("%-I:%M %p")
+            time_match = time_match.strftime("%d/%m/%Y")
             if time_match == today:
-                if Emma_home["id"] == 258756 or Emma_away["id"] == 258756:
-                    if not Emma_home["id"] == 258756:
-                        opponent = Emma_home["name"]
-                    else:
-                        opponent = Emma_away["name"]
-                    status = events["status"]
-                    is_started = status["type"]
-                    if is_started == "finished":
-                        return finish_start
-                    elif is_started == "inprogress":
-                        return is_start
-                    elif is_started == "notstarted":
-                        return (
-                            not_start
-                            + opponent
-                            + " today no earlier than "
-                            + time
-                            + " EST"
-                        )
+                if not Emma_home["id"] == 258756:
+                    opponent = Emma_home["name"]
+                else:
+                    opponent = Emma_away["name"]
+                status = events["status"]
+                is_started = status["type"]
+                if is_started == "finished":
+                    return finish_start
+                elif is_started == "inprogress":
+                    return is_start
+                elif is_started == "notstarted":
+                    return (
+                        not_start + opponent + " today no earlier than " + time + " EST"
+                    )
+            elif time_match == tomorrow:
+                return (
+                    not_start + opponent + "tomorrow no earlier than " + time + " EST"
+                )
+
             else:
                 return not_play
 
 
+print(EmmaBot())
 # EMMA ID - 258756
