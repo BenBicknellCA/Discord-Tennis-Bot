@@ -84,7 +84,7 @@ def EmmaBot():
                     return (
                         not_start
                         + opponent
-                        + "tomorrow no earlier than "
+                        + " tomorrow no earlier than "
                         + time
                         + " EST"
                     )
