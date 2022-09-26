@@ -5,10 +5,11 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from Emma_status import EmmaBot
+from Emma_status import Emma_Bot
 from JJWolf_status import JJBot
 from live import live
 from matches import sched
+from tiafoe_status import Tiafoe_Bot
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -60,7 +61,16 @@ async def Link(ctx):
     help="Responds with Emma match status",
 )
 async def Emma(ctx):
-    response = EmmaBot()
+    response = Emma_Bot()
+    await ctx.send(response)
+
+
+@bot.command(
+    name="Tiafoe",
+    help="Responds with Tiafoe match status",
+)
+async def Tiafoe(ctx):
+    response = Tiafoe_Bot()
     await ctx.send(response)
 
 

@@ -25,7 +25,7 @@ headers = {
 }
 
 
-def Emma_Bot():
+def Tiafoe_Bot():
     response = requests.request("GET", url, data=payload, headers=headers)
     tomorrow_response = requests.request(
         "GET", url_tomorrow, data=payload, headers=headers
@@ -35,22 +35,22 @@ def Emma_Bot():
     all_json = merge(json, tomorrow_json)
     results = all_json["events"]
     opponent = " "
-    not_start = "Emma plays "
-    is_start = "Emma is playing right now!"
-    finish_start = "Emma already played today"
-    not_play = "Emma does not play today"
+    not_start = "Tiafoe plays "
+    is_start = "Tiafoe is playing right now!"
+    finish_start = "Tiafoe already played today"
+    not_play = "Tiafoe does not play today"
 
     for events in results:
         tournament = events["tournament"]
         category = tournament["category"]
         league = category["name"]
-        Emma_home = events["homeTeam"]
-        Emma_away = events["awayTeam"]
+        Tiafoe_home = events["homeTeam"]
+        Tiafoe_away = events["awayTeam"]
         time_category = events["time"]
         time_unix = time_category["currentPeriodStartTimestamp"]
         scheduled_unix = events["startTimestamp"]
-        if league == "WTA":
-            if Emma_home["id"] == 258756 or Emma_away["id"] == 258756:
+        if league == "ATP":
+            if Tiafoe_home["id"] == 101101 or Tiafoe_away["id"] == 101101:
                 try:
                     time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
                         pytz.timezone("US/Eastern")
@@ -61,10 +61,10 @@ def Emma_Bot():
                     ).astimezone(pytz.timezone("US/Eastern"))
                 time = time_match.strftime("%-I:%M %p")
                 time_match = time_match.strftime("%d/%m/%Y")
-                if Emma_home["id"] == 258756:
-                    opponent = Emma_away["name"]
+                if Tiafoe_home["id"] == 101101:
+                    opponent = Tiafoe_away["name"]
                 else:
-                    opponent = Emma_home["name"]
+                    opponent = Tiafoe_home["name"]
                 if time_match == today:
                     status = events["status"]
                     is_started = status["type"]
@@ -93,4 +93,4 @@ def Emma_Bot():
             return not_play
 
 
-# EMMA ID - 258756
+# Tiafoe ID -101101
