@@ -61,11 +61,11 @@ def JJBot():
                     ).astimezone(pytz.timezone("US/Eastern"))
                 time = time_match.strftime("%-I:%M %p")
                 time_match = time_match.strftime("%d/%m/%Y")
+                if JJ_home["id"] == 210479:
+                    opponent = JJ_away["name"]
+                else:
+                    opponent = JJ_home["name"]
                 if time_match == today:
-                    if not JJ_home["id"] == 258756:
-                        opponent = JJ_away["name"]
-                    else:
-                        opponent = JJ_home["name"]
                     status = events["status"]
                     is_started = status["type"]
                     if is_started == "finished":
@@ -89,8 +89,8 @@ def JJBot():
                         + " EST"
                     )
 
-    else:
-        return not_play
+        else:
+            return not_play
 
 
 # JJ ID -210479

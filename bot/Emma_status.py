@@ -39,45 +39,58 @@ def EmmaBot():
     is_start = "Emma is playing right now!"
     finish_start = "Emma already played today"
     not_play = "Emma does not play today"
+
     for events in results:
+        tournament = events["tournament"]
+        category = tournament["category"]
+        league = category["name"]
         Emma_home = events["homeTeam"]
         Emma_away = events["awayTeam"]
         time_category = events["time"]
         time_unix = time_category["currentPeriodStartTimestamp"]
         scheduled_unix = events["startTimestamp"]
-        if Emma_home["id"] == 258756 or Emma_away["id"] == 258756:
-            try:
-                time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
-                    pytz.timezone("US/Eastern")
-                )
-            except:
-                time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
-                    pytz.timezone("US/Eastern")
-                )
-            time = time_match.strftime("%-I:%M %p")
-            time_match = time_match.strftime("%d/%m/%Y")
-            if time_match == today:
-                if not Emma_home["id"] == 258756:
-                    opponent = Emma_home["name"]
-                else:
-                    opponent = Emma_away["name"]
-                status = events["status"]
-                is_started = status["type"]
-                if is_started == "finished":
-                    return finish_start
-                elif is_started == "inprogress":
-                    return is_start
-                elif is_started == "notstarted":
-                    return (
-                        not_start + opponent + " today no earlier than " + time + " EST"
+        if league == "WTA":
+            if Emma_home["id"] == 258756 or Emma_away["id"] == 258756:
+                try:
+                    time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
+                        pytz.timezone("US/Eastern")
                     )
-            elif time_match == tomorrow:
-                return (
-                    not_start + opponent + "tomorrow no earlier than " + time + " EST"
-                )
+                except:
+                    time_match = datetime.datetime.fromtimestamp(
+                        scheduled_unix
+                    ).astimezone(pytz.timezone("US/Eastern"))
+                time = time_match.strftime("%-I:%M %p")
+                time_match = time_match.strftime("%d/%m/%Y")
+                if Emma_home["id"] == 258756:
+                    opponent = Emma_away["name"]
+                else:
+                    opponent = Emma_home["name"]
+                if time_match == today:
+                    status = events["status"]
+                    is_started = status["type"]
+                    if is_started == "finished":
+                        return finish_start
+                    elif is_started == "inprogress":
+                        return is_start
+                    elif is_started == "notstarted":
+                        return (
+                            not_start
+                            + opponent
+                            + " today no earlier than "
+                            + time
+                            + " EST"
+                        )
+                elif time_match == tomorrow:
+                    return (
+                        not_start
+                        + opponent
+                        + "tomorrow no earlier than "
+                        + time
+                        + " EST"
+                    )
 
-            else:
-                return not_play
+        else:
+            return not_play
 
 
 # EMMA ID - 258756
