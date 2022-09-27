@@ -1,40 +1,23 @@
-import json
-import os
-from datetime import datetime
-
-import requests
-from dotenv import load_dotenv
-
-load_dotenv()
-API_KEY = os.getenv("API_KEY")
-
-
-url = "https://tennisapi1.p.rapidapi.com/api/tennis/events/live"
-
-
-payload = ""
-headers = {
-    "X-RapidAPI-Key": API_KEY,
-    "X-RapidAPI-Host": "tennisapi1.p.rapidapi.com",
-}
+from get_json import get_json
 
 
 def live():
     allmatches = ""
-    response = requests.request("GET", url, data=payload, headers=headers)
-    json = response.json()
-    results = json["events"]
+    results = get_json()
     for events in results:
         tournament = events["tournament"]
         category = tournament["category"]
         league = category["name"]
+        status = events["status"]
+        is_started = status["type"]
         if league == "ATP":
-            hometeam = events["homeTeam"]
-            awayteam = events["awayTeam"]
-            homeplayer = hometeam["name"]
-            awayplayer = awayteam["name"]
-            match = str(homeplayer + " - " + awayplayer)
-            allmatches = allmatches + match + "\n"
+            if is_started == "inprogress":
+                hometeam = events["homeTeam"]
+                awayteam = events["awayTeam"]
+                homeplayer = hometeam["name"]
+                awayplayer = awayteam["name"]
+                match = str(homeplayer + " - " + awayplayer)
+                allmatches = allmatches + match + "\n"
     if allmatches == "":
         return str("There are no live ATP matches")
     else:

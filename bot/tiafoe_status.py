@@ -1,45 +1,19 @@
 import datetime
-import os
 
 import pytz
-import requests
-from dotenv import load_dotenv
-from jsonmerge import merge
 
-load_dotenv()
-API_KEY = os.getenv("API_KEY")
-
-right_now = datetime.datetime.today()
-today = right_now.strftime("%d/%m/%Y")
-tomorrow = right_now + datetime.timedelta(hours=24)
-tomorrow = tomorrow.strftime("%d/%m/%Y")
-
-urlbase = "https://tennisapi1.p.rapidapi.com/api/tennis/events/"
-url = urlbase + today
-url_tomorrow = urlbase + tomorrow
-
-payload = ""
-headers = {
-    "X-RapidAPI-Key": API_KEY,
-    "X-RapidAPI-Host": "tennisapi1.p.rapidapi.com",
-}
+from get_json import get_json, get_today, get_tomorrow
 
 
 def Tiafoe_Bot():
-    response = requests.request("GET", url, data=payload, headers=headers)
-    tomorrow_response = requests.request(
-        "GET", url_tomorrow, data=payload, headers=headers
-    )
-    json = response.json()
-    tomorrow_json = tomorrow_response.json()
-    all_json = merge(json, tomorrow_json)
-    results = all_json["events"]
     opponent = " "
     not_start = "Tiafoe plays "
     is_start = "Tiafoe is playing right now!"
     finish_start = "Tiafoe already played today"
     not_play = "Tiafoe does not play today"
-
+    today = get_today()
+    tomorrow = get_tomorrow()
+    results = get_json()
     for events in results:
         tournament = events["tournament"]
         category = tournament["category"]
@@ -93,4 +67,5 @@ def Tiafoe_Bot():
             return not_play
 
 
+print(Tiafoe_Bot())
 # Tiafoe ID -101101

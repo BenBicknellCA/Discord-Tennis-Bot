@@ -1,50 +1,37 @@
 import datetime
-import os
 
 import pytz
-import requests
-from dotenv import load_dotenv
-from jsonmerge import merge
 
-from get_time import right_now, today, tomorrow, url, url_tomorrow
-
-load_dotenv()
-API_KEY = os.getenv("API_KEY")
+from get_json import get_json, get_today, get_tomorrow
 
 
-payload = ""
-headers = {
-    "X-RapidAPI-Key": API_KEY,
-    "X-RapidAPI-Host": "tennisapi1.p.rapidapi.com",
-}
-
-
-def JJ_Bot():
-    response = requests.request("GET", url, data=payload, headers=headers)
-    tomorrow_response = requests.request(
-        "GET", url_tomorrow, data=payload, headers=headers
-    )
-    json = response.json()
-    tomorrow_json = tomorrow_response.json()
-    all_json = merge(json, tomorrow_json)
-    results = all_json["events"]
+def player_status(league, ID):
     opponent = " "
-    not_start = "JJ plays "
-    is_start = "JJ is playing right now!"
-    finish_start = "JJ already played today"
-    not_play = "JJ does not play today"
-
+    today = get_today()
+    tomorrow = get_tomorrow()
+    results = get_json()
     for events in results:
         tournament = events["tournament"]
         category = tournament["category"]
-        league = category["name"]
-        JJ_home = events["homeTeam"]
-        JJ_away = events["awayTeam"]
+        player_home = events["homeTeam"]
+        player_away = events["awayTeam"]
         time_category = events["time"]
         time_unix = time_category["currentPeriodStartTimestamp"]
         scheduled_unix = events["startTimestamp"]
-        if league == "ATP":
-            if JJ_home["id"] == 210479 or JJ_away["id"] == 210479:
+        if league == category["name"]:
+            if player_home["id"] == ID or player_away["id"] == ID:
+                if player_home["id"] == ID:
+                    player = player_home["name"]
+                    opponent = player_away["name"]
+                else:
+                    opponent = player_home["name"]
+                    player = player_away["name"]
+                status = events["status"]
+                is_started = status["type"]
+                not_start = player + " plays "
+                is_start = player + " is playing right now!"
+                finish_start = player + " already played today"
+                not_play = player + " does not play today"
                 try:
                     time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
                         pytz.timezone("US/Eastern")
@@ -55,13 +42,7 @@ def JJ_Bot():
                     ).astimezone(pytz.timezone("US/Eastern"))
                 time = time_match.strftime("%-I:%M %p")
                 time_match = time_match.strftime("%d/%m/%Y")
-                if JJ_home["id"] == 210479:
-                    opponent = JJ_away["name"]
-                else:
-                    opponent = JJ_home["name"]
                 if time_match == today:
-                    status = events["status"]
-                    is_started = status["type"]
                     if is_started == "finished":
                         return finish_start
                     elif is_started == "inprogress":
@@ -85,7 +66,3 @@ def JJ_Bot():
 
         else:
             return not_play
-
-
-print(JJBot())
-# JJ ID -210479

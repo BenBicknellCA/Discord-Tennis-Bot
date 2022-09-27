@@ -5,11 +5,11 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from Emma_status import Emma_Bot
-from JJWolf_status import JJBot
-from live import live
-from matches import sched
-from tiafoe_status import Tiafoe_Bot
+from matches import live, sched
+from player_bot import player_status
+
+ATP = "ATP"
+WTA = "WTA"
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -19,11 +19,34 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", case_insensitive=True, intents=intents)
 
+# PLAYER STATUSES
+
 
 @bot.command(name="JJ", help="Responds with JJ wolf match status")
 async def JJWolf(ctx):
-    response = JJBot()
+    response = player_status(ATP, 210479)
     await ctx.send(response)
+
+
+@bot.command(
+    name="Emma",
+    help="Responds with Emma match status",
+)
+async def Emma(ctx):
+    response = player_status(WTA, 258756)
+    await ctx.send(response)
+
+
+@bot.command(
+    name="Tiafoe",
+    help="Responds with Tiafoe match status",
+)
+async def Tiafoe(ctx):
+    response = player_status(ATP, 101101)
+    await ctx.send(response)
+
+
+# LIVE MATCHES, DAYS SCHEDULE, LINK TO STREAM
 
 
 @bot.command(
@@ -54,24 +77,6 @@ async def Link(ctx):
         url="http://freestreams-live1.com/tennis-live-stream/",
     )
     await ctx.send(embed=embed)
-
-
-@bot.command(
-    name="Emma",
-    help="Responds with Emma match status",
-)
-async def Emma(ctx):
-    response = Emma_Bot()
-    await ctx.send(response)
-
-
-@bot.command(
-    name="Tiafoe",
-    help="Responds with Tiafoe match status",
-)
-async def Tiafoe(ctx):
-    response = Tiafoe_Bot()
-    await ctx.send(response)
 
 
 bot.run(TOKEN)

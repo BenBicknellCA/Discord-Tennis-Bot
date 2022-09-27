@@ -9,14 +9,6 @@ from jsonmerge import merge
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
 
-right_now = datetime.datetime.today()
-today = right_now.strftime("%d/%m/%Y")
-tomorrow = right_now + datetime.timedelta(hours=24)
-tomorrow = tomorrow.strftime("%d/%m/%Y")
-
-urlbase = "https://tennisapi1.p.rapidapi.com/api/tennis/events/"
-url = urlbase + today
-url_tomorrow = urlbase + tomorrow
 
 payload = ""
 headers = {
@@ -26,6 +18,14 @@ headers = {
 
 
 def Emma_Bot():
+    right_now = datetime.datetime.today()
+    today = right_now.strftime("%d/%m/%Y")
+    tomorrow = right_now + datetime.timedelta(hours=24)
+    tomorrow = tomorrow.strftime("%d/%m/%Y")
+
+    urlbase = "https://tennisapi1.p.rapidapi.com/api/tennis/events/"
+    url = urlbase + today
+    url_tomorrow = urlbase + tomorrow
     response = requests.request("GET", url, data=payload, headers=headers)
     tomorrow_response = requests.request(
         "GET", url_tomorrow, data=payload, headers=headers
@@ -93,4 +93,5 @@ def Emma_Bot():
             return not_play
 
 
+print(Emma_Bot())
 # EMMA ID - 258756

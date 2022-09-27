@@ -1,76 +1,69 @@
-import json
-import os
-import urllib
-from datetime import datetime
+import datetime
 
-import requests
-from dotenv import load_dotenv
+import pytz
 
-load_dotenv()
-API_KEY = os.getenv("API_KEY")
-
-
-now = datetime.now()
-today = now.strftime("%d/%m/%Y")
-
-urlbase = "https://tennisapi1.p.rapidapi.com/api/tennis/events/"
-url = urlbase + today
-
-live_url = "https://tennisapi1.p.rapidapi.com/api/tennis/events/live"
-
-payload = ""
-headers = {
-    "X-RapidAPI-Key": API_KEY,
-    "X-RapidAPI-Host": "tennisapi1.p.rapidapi.com",
-}
+from get_json import get_json, get_today
 
 
 def sched():
-    allmatches = ""
-    results_count = 1
-    response = requests.request("GET", url, data=payload, headers=headers)
-    json = response.json()
-    results = json["events"]
+    allmatches = " "
+    results = get_json()
+    today = get_today()
     for count, events in enumerate(results):
         tournament = events["tournament"]
         category = tournament["category"]
         league = category["name"]
         if league == "ATP":
+            time_category = events["time"]
+            time_unix = time_category["currentPeriodStartTimestamp"]
+            scheduled_unix = events["startTimestamp"]
+            try:
+                time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
+                    pytz.timezone("US/Eastern")
+                )
+            except:
+                time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
+                    pytz.timezone("US/Eastern")
+                )
+            time = time_match.strftime("%-I:%M %p")
+            time_match = time_match.strftime("%d/%m/%Y")
             status = events["status"]
             is_started = status["type"]
-            if is_started == "notstarted":
-                hometeam = events["homeTeam"]
-                awayteam = events["awayTeam"]
-                homeplayer = hometeam["name"]
-                awayplayer = awayteam["name"]
-                match = str(homeplayer + "  -  " + awayplayer)
-                count = 1
-                count = count + 1
-                results_count = len(hometeam)
+            if time_match == today:
+                if is_started == "notstarted":
+                    hometeam = events["homeTeam"]
+                    awayteam = events["awayTeam"]
+                    homeplayer = hometeam["name"]
+                    awayplayer = awayteam["name"]
+                    match = str(homeplayer + "  -  " + awayplayer + " / " + time)
+                    count = 1
+                    count = count + 1
+                    results_count = len(hometeam)
 
-                if results_count > count:
-                    allmatches = allmatches + match + "\n"
-                else:
-                    allmatches = allmatches + match
+                    if results_count > count:
+                        allmatches = allmatches + match + "\n"
+                    else:
+                        allmatches = allmatches + match
     return allmatches
 
 
 def live():
     allmatches = ""
-    response = requests.request("GET", live_url, data=payload, headers=headers)
-    json = response.json()
-    results = json["events"]
+    results = get_json()
     for events in results:
         tournament = events["tournament"]
         category = tournament["category"]
         league = category["name"]
+        status = events["status"]
+        is_started = status["type"]
         if league == "ATP":
-            hometeam = events["homeTeam"]
-            awayteam = events["awayTeam"]
-            homeplayer = hometeam["name"]
-            awayplayer = awayteam["name"]
-            match = str(homeplayer + " - " + awayplayer)
-            allmatches = allmatches + match + "\n"
+            if is_started == "inprogress":
+                hometeam = events["homeTeam"]
+                awayteam = events["awayTeam"]
+                homeplayer = hometeam["name"]
+                awayplayer = awayteam["name"]
+                match = str(homeplayer + " - " + awayplayer)
+                allmatches = allmatches + match + "\n"
     if allmatches == "":
         return str("There are no live ATP matches")
     else:
