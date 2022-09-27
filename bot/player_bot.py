@@ -4,12 +4,16 @@ import pytz
 
 from get_json import get_json, get_today, get_tomorrow
 
+WTA = "WTA"
+ATP = "ATP"
 
-def player_status(league, ID):
+
+def player_status(player, league, ID):
     opponent = " "
     today = get_today()
     tomorrow = get_tomorrow()
     results = get_json()
+    not_play = player + " does not play today"
     for events in results:
         tournament = events["tournament"]
         category = tournament["category"]
@@ -31,7 +35,7 @@ def player_status(league, ID):
                 not_start = player + " plays "
                 is_start = player + " is playing right now!"
                 finish_start = player + " already played today"
-                not_play = player + " does not play today"
+
                 try:
                     time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
                         pytz.timezone("US/Eastern")

@@ -24,7 +24,7 @@ bot = commands.Bot(command_prefix="!", case_insensitive=True, intents=intents)
 
 @bot.command(name="JJ", help="Responds with JJ wolf match status")
 async def JJWolf(ctx):
-    response = player_status(ATP, 210479)
+    response = player_status("JJ", ATP, 210479)
     await ctx.send(response)
 
 
@@ -33,7 +33,7 @@ async def JJWolf(ctx):
     help="Responds with Emma match status",
 )
 async def Emma(ctx):
-    response = player_status(WTA, 258756)
+    response = player_status("Emma", WTA, 258756)
     await ctx.send(response)
 
 
@@ -42,7 +42,7 @@ async def Emma(ctx):
     help="Responds with Tiafoe match status",
 )
 async def Tiafoe(ctx):
-    response = player_status(ATP, 101101)
+    response = player_status("Tiafoe", ATP, 101101)
     await ctx.send(response)
 
 
