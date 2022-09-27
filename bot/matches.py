@@ -44,7 +44,10 @@ def sched():
                         allmatches = allmatches + match + "\n"
                     else:
                         allmatches = allmatches + match
-    return allmatches
+    if allmatches == " ":
+        return str("There are no ATP matches scheduled for today")
+    else:
+        return allmatches
 
 
 def live():
