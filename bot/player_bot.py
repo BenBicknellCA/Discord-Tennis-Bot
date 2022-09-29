@@ -1,11 +1,16 @@
+import asyncio
 import datetime
 
 import pytz
 
-from get_json import get_json, get_today, get_tomorrow
+from get_json import fetch_all, get_today, get_tomorrow
 
 WTA = "WTA"
 ATP = "ATP"
+
+
+def get_json():
+    return asyncio.run(fetch_all())
 
 
 def player_status(player, league, ID):

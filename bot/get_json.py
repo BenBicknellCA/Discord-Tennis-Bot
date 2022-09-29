@@ -1,12 +1,14 @@
+import asyncio
 import datetime
 import os
 
-import requests
+import aiohttp
 from dotenv import load_dotenv
-from jsonmerge import merge
 
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
+
+urlbase = "https://tennisapi1.p.rapidapi.com/api/tennis/events/"
 
 
 payload = ""
@@ -29,18 +31,24 @@ def get_tomorrow():
     return tomorrow
 
 
-def get_json():
-    today = get_today()
-    tomorrow = get_tomorrow()
-    urlbase = "https://tennisapi1.p.rapidapi.com/api/tennis/events/"
-    url = urlbase + today
-    url_tomorrow = urlbase + tomorrow
-    response = requests.request("GET", url, data=payload, headers=headers)
-    tomorrow_response = requests.request(
-        "GET", url_tomorrow, data=payload, headers=headers
-    )
-    json = response.json()
-    tomorrow_json = tomorrow_response.json()
-    all_json = merge(json, tomorrow_json)
-    results = all_json["events"]
-    return results
+def get_url():
+    return [urlbase + get_today(), urlbase + get_tomorrow()]
+
+
+async def get_json(session, url):
+    async with session.get(url, data=payload, headers=headers) as resp:
+        json = await resp.json()
+        return json
+
+
+async def fetch_all():
+    async with aiohttp.ClientSession() as session:
+        url_list = get_url()
+
+        tasks = []
+        for url in url_list:
+            tasks.append(asyncio.ensure_future(get_json(session, url)))
+
+        all_json = await asyncio.gather(*tasks)
+        for json in all_json:
+            return json["events"]

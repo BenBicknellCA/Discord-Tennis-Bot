@@ -1,8 +1,13 @@
+import asyncio
 import datetime
 
 import pytz
 
-from get_json import get_json, get_today
+from get_json import fetch_all, get_today
+
+
+def get_json():
+    return asyncio.run(fetch_all())
 
 
 def sched():
@@ -71,3 +76,6 @@ def live():
         return str("There are no live ATP matches")
     else:
         return allmatches
+
+
+print(sched())
