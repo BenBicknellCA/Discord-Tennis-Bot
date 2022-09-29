@@ -25,7 +25,6 @@ def get_today():
 
 
 def get_tomorrow():
-    get_today()
     tomorrow = right_now + datetime.timedelta(hours=24)
     tomorrow = tomorrow.strftime("%d/%m/%Y")
     return tomorrow
