@@ -51,4 +51,4 @@ async def fetch_all():
 
         all_json = await asyncio.gather(*tasks)
         for json in all_json:
-            return json["events"]
+            return json

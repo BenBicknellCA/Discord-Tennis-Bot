@@ -9,24 +9,21 @@ WTA = "WTA"
 ATP = "ATP"
 
 
-def get_json():
-    return asyncio.run(fetch_all())
-
-
-def player_status(player, league, ID):
+async def player_status(player, league, ID):
     opponent = " "
     today = get_today()
     tomorrow = get_tomorrow()
-    results = get_json()
+    results_get = await fetch_all()
+    results = results_get["events"]
     not_play = player + " does not play today"
-    for events in results:
-        tournament = events["tournament"]
+    for event in results:
+        tournament = event["tournament"]
         category = tournament["category"]
-        player_home = events["homeTeam"]
-        player_away = events["awayTeam"]
-        time_category = events["time"]
+        player_home = event["homeTeam"]
+        player_away = event["awayTeam"]
+        time_category = event["time"]
         time_unix = time_category["currentPeriodStartTimestamp"]
-        scheduled_unix = events["startTimestamp"]
+        scheduled_unix = event["startTimestamp"]
         if league == category["name"]:
             if player_home["id"] == ID or player_away["id"] == ID:
                 if player_home["id"] == ID:
@@ -35,7 +32,7 @@ def player_status(player, league, ID):
                 else:
                     opponent = player_home["name"]
                     player = player_away["name"]
-                status = events["status"]
+                status = event["status"]
                 is_started = status["type"]
                 not_start = player + " plays "
                 is_start = player + " is playing right now!"

@@ -1,4 +1,3 @@
-import asyncio
 import datetime
 
 import pytz
@@ -6,22 +5,19 @@ import pytz
 from get_json import fetch_all, get_today
 
 
-def get_json():
-    return asyncio.run(fetch_all())
-
-
-def sched():
-    allmatches = " "
-    results = get_json()
+async def sched():
     today = get_today()
-    for count, events in enumerate(results):
-        tournament = events["tournament"]
+    allmatches = " "
+    results = await fetch_all()
+    events = results["events"]
+    for count, event in enumerate(events):
+        tournament = event["tournament"]
         category = tournament["category"]
         league = category["name"]
         if league == "ATP":
-            time_category = events["time"]
+            time_category = event["time"]
             time_unix = time_category["currentPeriodStartTimestamp"]
-            scheduled_unix = events["startTimestamp"]
+            scheduled_unix = event["startTimestamp"]
             try:
                 time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
                     pytz.timezone("US/Eastern")
@@ -32,12 +28,12 @@ def sched():
                 )
             time = time_match.strftime("%-I:%M %p")
             time_match = time_match.strftime("%d/%m/%Y")
-            status = events["status"]
+            status = event["status"]
             is_started = status["type"]
             if time_match == today:
                 if is_started == "notstarted":
-                    hometeam = events["homeTeam"]
-                    awayteam = events["awayTeam"]
+                    hometeam = event["homeTeam"]
+                    awayteam = event["awayTeam"]
                     homeplayer = hometeam["name"]
                     awayplayer = awayteam["name"]
                     match = str(homeplayer + "  -  " + awayplayer + " / " + time)
@@ -55,19 +51,20 @@ def sched():
         return allmatches
 
 
-def live():
-    allmatches = ""
-    results = get_json()
-    for events in results:
-        tournament = events["tournament"]
+async def live():
+    allmatches = " "
+    results = await fetch_all()
+    events = results["events"]
+    for event in events:
+        tournament = event["tournament"]
         category = tournament["category"]
         league = category["name"]
-        status = events["status"]
+        status = event["status"]
         is_started = status["type"]
         if league == "ATP":
             if is_started == "inprogress":
-                hometeam = events["homeTeam"]
-                awayteam = events["awayTeam"]
+                hometeam = event["homeTeam"]
+                awayteam = event["awayTeam"]
                 homeplayer = hometeam["name"]
                 awayplayer = awayteam["name"]
                 match = str(homeplayer + " - " + awayplayer)
@@ -76,6 +73,3 @@ def live():
         return str("There are no live ATP matches")
     else:
         return allmatches
-
-
-print(sched())

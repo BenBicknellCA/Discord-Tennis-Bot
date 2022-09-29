@@ -1,4 +1,5 @@
 # bot.py
+import asyncio
 import os
 
 import discord
@@ -24,7 +25,7 @@ bot = commands.Bot(command_prefix="!", case_insensitive=True, intents=intents)
 
 @bot.command(name="JJ", help="Responds with JJ wolf match status")
 async def JJWolf(ctx):
-    response = player_status("JJ", ATP, 210479)
+    response = await player_status("JJ", ATP, 210479)
     await ctx.send(response)
 
 
@@ -33,7 +34,7 @@ async def JJWolf(ctx):
     help="Responds with Emma match status",
 )
 async def Emma(ctx):
-    response = player_status("Emma", WTA, 258756)
+    response = await player_status("Emma", WTA, 258756)
     await ctx.send(response)
 
 
@@ -42,7 +43,7 @@ async def Emma(ctx):
     help="Responds with Tiafoe match status",
 )
 async def Tiafoe(ctx):
-    response = player_status("Tiafoe", ATP, 101101)
+    response = await player_status("Tiafoe", ATP, 101101)
     await ctx.send(response)
 
 
@@ -54,7 +55,7 @@ async def Tiafoe(ctx):
     help="Responds with all of the mens matches happening today",
 )
 async def Today(ctx):
-    response = sched()
+    response = await sched()
     await ctx.send(response)
 
 
@@ -63,7 +64,7 @@ async def Today(ctx):
     help="Responds with all of the mens matches happening right now",
 )
 async def Live(ctx):
-    response = live()
+    response = await live()
     await ctx.send(response)
 
 
