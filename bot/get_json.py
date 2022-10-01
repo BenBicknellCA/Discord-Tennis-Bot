@@ -19,7 +19,8 @@ headers = {
 
 
 def get_today():
-    today = datetime.datetime.today().strftime("%d/%m/%Y")
+    right_now = datetime.datetime.today()
+    today = right_now.strftime("%d/%m/%Y")
     return today
 
 
