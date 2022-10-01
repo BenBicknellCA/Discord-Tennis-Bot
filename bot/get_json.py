@@ -19,13 +19,12 @@ headers = {
 
 
 def get_today():
-    right_now = datetime.datetime.today()
-    today = right_now.strftime("%d/%m/%Y")
+    today = datetime.datetime.today().strftime("%d/%m/%Y")
     return today
 
 
 def get_tomorrow():
-    tomorrow = get_today() + datetime.timedelta(hours=24)
+    tomorrow = datetime.datetime.today() + datetime.timedelta(hours=24)
     tomorrow = tomorrow.strftime("%d/%m/%Y")
     return tomorrow
 
