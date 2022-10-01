@@ -16,16 +16,15 @@ headers = {
     "X-RapidAPI-Key": API_KEY,
     "X-RapidAPI-Host": "tennisapi1.p.rapidapi.com",
 }
-right_now = datetime.datetime.today()
 
 
 def get_today():
-    today = right_now.strftime("%d/%m/%Y")
+    today = datetime.datetime.today().strftime("%d/%m/%Y")
     return today
 
 
 def get_tomorrow():
-    tomorrow = right_now + datetime.timedelta(hours=24)
+    tomorrow = get_today() + datetime.timedelta(hours=24)
     tomorrow = tomorrow.strftime("%d/%m/%Y")
     return tomorrow
 
