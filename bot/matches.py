@@ -69,7 +69,7 @@ async def live():
                 awayplayer = awayteam["name"]
                 match = str(homeplayer + " - " + awayplayer)
                 allmatches = allmatches + match + "\n"
-        if allmatches == " ":
-            return str("There are no live ATP matches")
-        else:
-            return allmatches
+    if allmatches == " ":
+        return str("There are no live ATP matches")
+    else:
+        return allmatches
