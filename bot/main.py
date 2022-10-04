@@ -7,10 +7,11 @@ from discord.ext import commands
 from dotenv import load_dotenv
 
 from matches import live, sched
-from player_bot import player_status
+from player_bot import CHALLENGER, player_status
 
 ATP = "ATP"
 WTA = "WTA"
+CHALLENGER = "Challenger"
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")

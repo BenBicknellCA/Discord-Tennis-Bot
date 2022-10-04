@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 
 import pytz
@@ -31,6 +32,8 @@ async def sched():
             status = event["status"]
             is_started = status["type"]
             if time_match == today:
+                if is_started == "inprogress":
+                    time = "in progress"
                 if is_started == "notstarted":
                     hometeam = event["homeTeam"]
                     awayteam = event["awayTeam"]
