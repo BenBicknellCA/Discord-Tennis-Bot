@@ -75,6 +75,3 @@ async def player_status(player, league, ID):
 
             else:
                 return not_play
-
-
-print(asyncio.run(player_status("JJ", ATP, 210479)))
