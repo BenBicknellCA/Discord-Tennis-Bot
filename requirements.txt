@@ -10,6 +10,6 @@ jsonmerge==1.9.0
 jsonschema==4.17.3
 multidict==6.0.4
 pyrsistent==0.19.3
-python-dotenv==0.21.0
+python-dotenv==0.21.1
 pytz==2022.7
 yarl==1.8.2
