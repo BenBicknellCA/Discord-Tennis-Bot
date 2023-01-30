@@ -11,5 +11,5 @@ jsonschema==4.17.3
 multidict==6.0.4
 pyrsistent==0.19.3
 python-dotenv==0.21.1
-pytz==2022.7
+pytz==2022.7.1
 yarl==1.8.2
