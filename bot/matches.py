@@ -17,13 +17,13 @@ async def sched():
         league = category["name"]
         if league == "ATP":
             time_category = event["time"]
-            time_unix = time_category["currentPeriodStartTimestamp"]
-            scheduled_unix = event["startTimestamp"]
             try:
+                time_unix = time_category["currentPeriodStartTimestamp"]
                 time_match = datetime.datetime.fromtimestamp(time_unix).astimezone(
                     pytz.timezone("US/Eastern")
                 )
             except:
+                scheduled_unix = event["startTimestamp"]
                 time_match = datetime.datetime.fromtimestamp(scheduled_unix).astimezone(
                     pytz.timezone("US/Eastern")
                 )
